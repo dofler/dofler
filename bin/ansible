@@ -1,0 +1,37 @@
+#!/bin/bash
+set -e
+set +x
+
+trap 'abort' 0
+
+abort()
+{
+    echo >&2 'Aborted'
+    echo "An error occurred. Exiting..." >&2
+    exit 1
+}
+
+display_error()
+{
+    echo "Usage: "
+    echo "$0 <network interface>"
+    exit 2
+}
+
+WAN_INTERFACE=$1
+
+if [ -z "${WAN_INTERFACE}" ]; then
+    display_error
+fi
+
+# Convert debug environment variable to something that ansible understands
+if [ -n "$DEBUG" ]; then
+    VERBOSE="-vvvv"
+    export ANSIBLE_LOG_PATH=${PWD}/ansible.log
+fi
+
+# Get the python from /usr/bin/env python to support virtualenvs
+ansible-playbook -i ansible/hosts ansible/bootstrap.yml $VERBOSE -e "wan_interface=${WAN_INTERFACE}" -e 'ansible_python_interpreter="/usr/bin/env python"'
+
+trap : 0
+echo >&2 'Done'

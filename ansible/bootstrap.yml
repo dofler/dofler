@@ -1,0 +1,8 @@
+- name: Set up environment for dofler
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  roles:
+    - docker
+    - network

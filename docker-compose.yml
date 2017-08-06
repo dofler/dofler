@@ -1,0 +1,38 @@
+version: "3"
+services:
+  # api:
+  #   image: dofler/docker-web-api:latest
+  #   ports:
+  #     - 8080:80
+  #   networks:
+  #     - api
+  #     - nsfw
+
+  nsfw:
+    image: dofler/docker-nsfw:latest
+    ports:
+      - 8080
+    restart: always
+    networks:
+      - nsfw
+
+  driftnet:
+    image: dofler/docker-driftnet:latest
+    environment:
+      NODE_ENV: production
+      MONITOR_INTERFACE: eth1
+      IMAGE_PATH: /images
+      DOFLER_ADDRESS: http://api
+    restart: always
+    networks:
+      - api
+      - span
+
+networks:
+  api:
+  nsfw:
+  span:
+    internal: true
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: ${SPAN_INTERFACE:-span0}
