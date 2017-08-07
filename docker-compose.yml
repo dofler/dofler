@@ -1,12 +1,15 @@
 version: "3"
 services:
-  # api:
-  #   image: dofler/docker-web-api:latest
-  #   ports:
-  #     - 8080:80
-  #   networks:
-  #     - api
-  #     - nsfw
+  api:
+    image: dofler/docker-web-api:latest
+    ports:
+      - 8081:8080
+    networks:
+      - api
+      - nsfw
+    environment:
+      NODE_ENV: production
+      IMGSVC_ADDRESS: http://nsfw:8080
 
   nsfw:
     image: dofler/docker-nsfw:latest
@@ -22,7 +25,7 @@ services:
       NODE_ENV: production
       MONITOR_INTERFACE: eth1
       IMAGE_PATH: /images
-      DOFLER_ADDRESS: http://api
+      DOFLER_ADDRESS: http://api:8080
     restart: always
     networks:
       - api

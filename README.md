@@ -17,6 +17,14 @@ Replace `<network interface>` with the network interface connected to your span 
 To start DoFler, run `./bin/up`.  
 After it's started, you can connect to the web interface on `http://localhost:8080`.
 
+### Running remotely
+As the environment requires a network tap, you might want to run it on a remote machine.
+To tell docker compose to use the docker daemon on another host, export the `DOCKER_HOST` environment variable:
+```
+export DOCKER_HOST=tcp://docker-host:2375
+```
+Note that this requires the docker daemon to listen on a public interface.  
+
 ## Development
 For development we build all the containers locally, this requires you to check out the individual container repositories in the same parent directory as this repository, as such:
 ```
@@ -42,15 +50,7 @@ The development environment will build the containers locally, and hot-reload co
 
 ### Debugging
 Most container repositories contain Visual Studio Code configuration for debugging.  
-To use it, open the container directory in Visual Studio Code, go to the `Debug` menu and press `Start Debugging`.
-
-### Running the development environment remotely
-As the development environment requires a network tap, you might want to run it on a remote machine.
-To tell docker compose to use the docker daemon on another host, export the `DOCKER_HOST` environment variable:
-```
-export DOCKER_HOST=tcp://docker-host:2375
-```
-Note that this requires the docker daemon to listen on a public interface.
+To use it, open the container directory in Visual Studio Code, go to the `Debug` menu, select the `Attach` configuration, and press `Start Debugging`.
 
 ## License
 See [LICENSE.md](LICENSE.md)

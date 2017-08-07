@@ -1,8 +1,16 @@
 version: "3"
 services:
-  # api:
-  #   build:
-  #     context: ../docker-web-api
+  api:
+    command: sh -c "npm install && ./node_modules/.bin/gulp"
+    ports:
+      - "4001:4001"
+    build:
+      context: ../docker-web-api
+    volumes:
+      - ../docker-web-api/app:/app
+      - ./images:/images
+    environment:
+      NODE_ENV: development
 
   nsfw:
     build:
