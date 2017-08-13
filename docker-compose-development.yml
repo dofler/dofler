@@ -21,3 +21,5 @@ services:
   driftnet:
     build:
       context: ../docker-driftnet
+    volumes:
+      - ../docker-driftnet/app:/app
