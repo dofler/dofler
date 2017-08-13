@@ -10,6 +10,7 @@ services:
     environment:
       NODE_ENV: production
       IMGSVC_ADDRESS: http://nsfw:8080
+      IMAGE_PATH: /images
 
   nsfw:
     image: dofler/docker-nsfw:latest
