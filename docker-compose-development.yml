@@ -13,10 +13,16 @@ services:
       NODE_ENV: development
 
   nsfw:
+    command: sh -c "pip install 'ptvsd==3.0.0' && python /opt/nsfw/nsfw.py"
     build:
       context: ../docker-nsfw
+    ports:
+      - "4002:4002"
     volumes:
       - ../docker-nsfw/nsfw:/opt/nsfw/
+    environment:
+      DEBUG: 1
+      FLASK_DEBUG: 1
 
   driftnet:
     build:
